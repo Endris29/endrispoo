@@ -26,20 +26,23 @@ public class MainClass {
         int respuestasCorrectas = 0;
 
         while (respuestasCorrectas < 10) {
-            String pregunta = gp.generarPregunta();  
+            String pregunta = gp.generarPregunta();
             ui.mostrarPregunta(pregunta);
 
             int respuestaUsuario = ui.obtenerRespuestaUsuario();
             int respuestaCorrecta = gp.calcularRespuesta();
 
-            if (respuestaUsuario == respuestaCorrecta) {
-                respuestasCorrectas++;
-                int indiceAleatorio = random.nextInt(comentariosPositivos.length);
-                System.out.println(comentariosPositivos[indiceAleatorio]);
-            } else {
-                int indiceAleatorio = random.nextInt(comentariosNegativos.length);
-                System.out.println(comentariosNegativos[indiceAleatorio]);
+            while (respuestaUsuario != respuestaCorrecta) {
+                int indiceAleatorioNeg = random.nextInt(comentariosNegativos.length);
+                System.out.println(comentariosNegativos[indiceAleatorioNeg]);
+                respuestaUsuario = ui.obtenerRespuestaUsuario();
             }
+
+            respuestasCorrectas++;
+            int indiceAleatorioPos = random.nextInt(comentariosPositivos.length);
+            System.out.println(comentariosPositivos[indiceAleatorioPos]);
         }
+        scanner.close();
     }
 }
+
