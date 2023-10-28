@@ -1,28 +1,18 @@
-import java.util.Random;
+import java.security.SecureRandom;
 
 public class GeneradorPreguntas {
-    private Random random;
+    private SecureRandom secureRandom;
     private int nivelDificultad;
 
     public GeneradorPreguntas(int nivelDificultad) {
-        this.random = new Random();
+        this.secureRandom = new SecureRandom();
         this.nivelDificultad = nivelDificultad;
     }
 
     public int[] generarOperandos() {
-        int maxNumero = (int) Math.pow(10, nivelDificultad) - 1;
-        int operando1 = random.nextInt(maxNumero) + 1;
-        int operando2 = random.nextInt(maxNumero) + 1;
+        int maxNumber = (int) Math.pow(10, nivelDificultad) - 1;
+        int operando1 = secureRandom.nextInt(maxNumber) + 1;
+        int operando2 = secureRandom.nextInt(maxNumber) + 1;
         return new int[]{operando1, operando2};
-    }
-
-    public String generarPregunta(int operando1, int operando2, int tipoOperacion) {
-       
-        return "";
-    }
-
-    public int calcularRespuesta(int operando1, int operando2, int tipoOperacion) {
-       
-        return 0;
     }
 }
