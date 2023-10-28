@@ -1,8 +1,13 @@
+import java.util.Random;
 import java.util.Scanner;
 
 public class MainClass {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
+        Random random = new Random();
+
+        InterfazUsuario ui = new InterfazUsuario();
+        GeneradorPreguntas gp = new GeneradorPreguntas();
 
         String[] comentariosPositivos = {
             "¡Muy bien!",
@@ -18,19 +23,23 @@ public class MainClass {
             "No. Sigue intentando."
         };
 
-        System.out.println("Elige el nivel de dificultad: ");
-        System.out.println("1: Números de un dígito");
-        System.out.println("2: Números de dos dígitos");
-        int nivelDificultad = scanner.nextInt();
-        
-        System.out.println("Elige el tipo de operación que quieres practicar: ");
-        System.out.println("1: Suma");
-        System.out.println("2: Resta");
-        System.out.println("3: Multiplicación");
-        System.out.println("4: División");
-        System.out.println("5: Mezcla aleatoria");
-        int tipoOperacion = scanner.nextInt();
+        int respuestasCorrectas = 0;
 
-        
+        while (respuestasCorrectas < 10) {
+            String pregunta = gp.generarPregunta();  
+            ui.mostrarPregunta(pregunta);
+
+            int respuestaUsuario = ui.obtenerRespuestaUsuario();
+            int respuestaCorrecta = gp.calcularRespuesta();
+
+            if (respuestaUsuario == respuestaCorrecta) {
+                respuestasCorrectas++;
+                int indiceAleatorio = random.nextInt(comentariosPositivos.length);
+                System.out.println(comentariosPositivos[indiceAleatorio]);
+            } else {
+                int indiceAleatorio = random.nextInt(comentariosNegativos.length);
+                System.out.println(comentariosNegativos[indiceAleatorio]);
+            }
+        }
     }
 }
