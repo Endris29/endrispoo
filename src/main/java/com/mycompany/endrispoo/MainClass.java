@@ -1,13 +1,19 @@
-import java.util.Random;
 import java.util.Scanner;
+import java.util.Random;
 
 public class MainClass {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         Random random = new Random();
 
+        System.out.println("Por favor, elige el nivel de dificultad (1 para números de un dígito, 2 para dos dígitos.): ");
+        int nivelDificultad = scanner.nextInt();
+
+        System.out.println("Elige el tipo de problema aritmético (1 para suma, 2 para resta, 3 para multiplicación, 4 para división, 5 para aleatorio): ");
+        int tipoProblema = scanner.nextInt();
+
         InterfazUsuario ui = new InterfazUsuario();
-        GeneradorPreguntas gp = new GeneradorPreguntas();
+        GeneradorPreguntas gp = new GeneradorPreguntas(nivelDificultad, tipoProblema);
 
         String[] comentariosPositivos = {
             "¡Muy bien!",
@@ -26,11 +32,12 @@ public class MainClass {
         int respuestasCorrectas = 0;
 
         while (respuestasCorrectas < 10) {
-            String pregunta = gp.generarPregunta();
+            int[] operandos = gp.generarOperandos();
+            String pregunta = gp.generarPregunta(operandos[0], operandos[1]);  
             ui.mostrarPregunta(pregunta);
 
             int respuestaUsuario = ui.obtenerRespuestaUsuario();
-            int respuestaCorrecta = gp.calcularRespuesta();
+            double respuestaCorrecta = gp.calcularRespuesta(operandos[0], operandos[1]);
 
             while (respuestaUsuario != respuestaCorrecta) {
                 int indiceAleatorioNeg = random.nextInt(comentariosNegativos.length);
@@ -45,4 +52,5 @@ public class MainClass {
         scanner.close();
     }
 }
+
 
