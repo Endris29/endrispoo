@@ -6,10 +6,10 @@ public class MainClass {
         Scanner scanner = new Scanner(System.in);
         Random random = new Random();
 
-        System.out.println("Por favor, elige el nivel de dificultad (1 para números de un dígito, 2 para dos dígitos.): ");
+        System.out.println("Elige el nivel de dificultad: (1 para un dígito, 2 para dos dígitos, etc.)");
         int nivelDificultad = scanner.nextInt();
 
-        System.out.println("Elige el tipo de problema aritmético (1 para suma, 2 para resta, 3 para multiplicación, 4 para división, 5 para aleatorio): ");
+        System.out.println("Elige el tipo de problema: (1 para suma, 2 para resta, 3 para multiplicación, 4 para división, 5 para mezcla aleatoria)");
         int tipoProblema = scanner.nextInt();
 
         InterfazUsuario ui = new InterfazUsuario();
@@ -30,27 +30,35 @@ public class MainClass {
         };
 
         int respuestasCorrectas = 0;
+        int totalPreguntas = 0;
 
-        while (respuestasCorrectas < 10) {
+        while (totalPreguntas < 10) {
             int[] operandos = gp.generarOperandos();
-            String pregunta = gp.generarPregunta(operandos[0], operandos[1]);  
+            String pregunta = gp.generarPregunta(operandos[0], operandos[1]);
             ui.mostrarPregunta(pregunta);
 
             int respuestaUsuario = ui.obtenerRespuestaUsuario();
             double respuestaCorrecta = gp.calcularRespuesta(operandos[0], operandos[1]);
 
-            while (respuestaUsuario != respuestaCorrecta) {
+            if (respuestaUsuario == respuestaCorrecta) {
+                respuestasCorrectas++;
+                int indiceAleatorioPos = random.nextInt(comentariosPositivos.length);
+                System.out.println(comentariosPositivos[indiceAleatorioPos]);
+            } else {
                 int indiceAleatorioNeg = random.nextInt(comentariosNegativos.length);
                 System.out.println(comentariosNegativos[indiceAleatorioNeg]);
-                respuestaUsuario = ui.obtenerRespuestaUsuario();
             }
 
-            respuestasCorrectas++;
-            int indiceAleatorioPos = random.nextInt(comentariosPositivos.length);
-            System.out.println(comentariosPositivos[indiceAleatorioPos]);
+            totalPreguntas++;
         }
+
+        double porcentajeCorrecto = ((double) respuestasCorrectas / totalPreguntas) * 100;
+        if (porcentajeCorrecto < 75) {
+            System.out.println("Por favor pide ayuda adicional a tu instructor.");
+        } else {
+            System.out.println("Felicidades, estás listo para pasar al siguiente nivel!");
+        }
+
         scanner.close();
     }
 }
-
-
